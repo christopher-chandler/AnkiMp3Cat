@@ -31,7 +31,7 @@ class Mp3Combiner:
 
         :return:
         """
-        with open(self.anki_app_data, mode="r") as yaml_file:
+        with open(self.anki_app_data, mode="r",encoding="utf-8") as yaml_file:
             yaml_data = yaml.safe_load(yaml_file)
             return yaml_data
 
@@ -113,7 +113,7 @@ class Mp3Combiner:
 
         return audio_file
 
-    def combine_files(self) -> None:
+    def combine_files(self, find_hook: bool) -> None:
         """
 
         :return:
@@ -130,22 +130,30 @@ class Mp3Combiner:
         track_num = 0
 
         for episode_name in sorted(show_collection):
+
             track_num += 1
             prog_amount = float(track_num / show_amount)
-            update_progress(label=episode_name, progress=prog_amount)
+            if find_hook is False:
+                update_progress(label=episode_name, progress=prog_amount)
+            else:
+                update_progress(label=f"Possible hook for {episode_name}", progress=1)
+
             episode_collection = sorted(show_collection.get(episode_name))
 
-            self.__delete_files(temp_folder)
+            if os.path.exists(temp_folder) is False:
+                os.mkdir(temp_folder)
 
             for file in episode_collection:
                 os.chdir(anki_media)
                 shutil.copy(file, rf"{temp_folder}\{file}")
 
+            time.sleep(2)
+
             # Execute mp3cat in the temp directory
             os.chdir(temp_folder)
             os.popen(rf"{mp3_cat} {episode_name}.mp3")
 
-            time.sleep(1)
+            time.sleep(3)
 
             self.__add_meta_data(
                 file=episode_name + ".mp3", track_num=track_num, title=episode_name
@@ -157,14 +165,15 @@ class Mp3Combiner:
                     rf"{save_path}\{episode_name}.mp3",
                 )
 
-                self.__delete_files(temp_folder)
+            time.sleep(3)
+            os.chdir(r"C:\Users\chris\Github\Python\Mp3Combiner")
+            shutil.rmtree(temp_folder)
 
-            time.sleep(1)
+            if find_hook:
+                break
 
         print(f"File combination for {show_name} is now complete.")
         print(f"Please check the directory {save_path}.")
-
-        self.__delete_files(temp_folder)
 
     def show_check(self, file_type: str = "mp3") -> set:
         """
@@ -187,4 +196,4 @@ class Mp3Combiner:
 if __name__ == "__main__":
     yaml_file_data = r"C:\Users\chris\Github\Python\Mp3Combiner\episode_information.yml"
     combiner = Mp3Combiner(show_yaml_data=yaml_file_data)
-    combiner.combine_files()
+    combiner.combine_files(find_hook=False)

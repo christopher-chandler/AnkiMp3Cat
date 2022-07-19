@@ -1,13 +1,13 @@
 # path names
-anki_media:  
-save_path:  
-temp_folder: 
-mp3_cat:  
+anki_media: C:\Users\chris\AppData\Roaming\Anki2\MediaFire\collection.media
+save_path: C:\Users\chris\Github\Python\Mp3Combiner\condensed_audio
+temp_folder: C:\Users\chris\Github\Python\Mp3Combiner\temp
+mp3_cat: C:\Users\chris\Github\Python\Mp3Combiner\mp3cat\mp3cat.exe --dir . --out
 
 # mp3 information
-show_name:  
-episode_index:  
-cover_art:   
-file_format:  
-genre:  
+show_name: GoodMorningCallSeason2
+episode_index: 25
+cover_art:  C:\Users\chris\Github\Python\Mp3Combiner\cover_art\cover_art.jpg
+file_format: mp3
+genre: Drama
 
