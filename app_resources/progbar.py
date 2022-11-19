@@ -11,8 +11,8 @@ import sys
 def update_progress(label: str, progress: float, bar_length: int = 10) -> None:
     """
 
-    :param label:
-    :param progress:
+    :param label (str): The title of the progress bar
+    :param progress ():
     :param bar_length:
 
     :return:

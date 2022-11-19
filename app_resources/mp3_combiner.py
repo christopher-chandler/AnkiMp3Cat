@@ -13,7 +13,7 @@ import eyed3
 import yaml
 
 # Custom
-from progbar import update_progress
+from app_resources.progbar import update_progress
 
 
 class Mp3Combiner:
@@ -37,6 +37,7 @@ class Mp3Combiner:
 
     def __change_directory(self) -> None:
         """
+
 
         :return:
         """
@@ -104,7 +105,7 @@ class Mp3Combiner:
         audio_file.tag.album = data.get("show_name")
         audio_file.tag.genre = data.get("genre")
 
-        cover_art_filename = self.__open_yaml_data().get("cover_art")
+        cover_art_filename = self.__open_yaml_data().get("../cover_art")
 
         with open(cover_art_filename, "rb") as cover_art:
             audio_file.tag.images.set(0, cover_art.read(), "image/jpg")
@@ -194,6 +195,4 @@ class Mp3Combiner:
 
 
 if __name__ == "__main__":
-    yaml_file_data = r"C:\Users\chris\Github\Python\Mp3Combiner\episode_information.yml"
-    combiner = Mp3Combiner(show_yaml_data=yaml_file_data)
-    combiner.combine_files(find_hook=False)
+    pass
