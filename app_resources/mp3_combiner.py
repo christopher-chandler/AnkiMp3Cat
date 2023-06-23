@@ -7,7 +7,6 @@ import re
 import shutil
 import time
 
-
 # Pip
 import eyed3
 import yaml
@@ -15,23 +14,49 @@ import yaml
 # Custom
 from app_resources.progbar import update_progress
 
+# A basic logger
+logging.basicConfig(
+    filename=r"log\app.log",
+    filemode="w",
+    format="%(asctime)s\n"
+    "-Name:  %(name)s\n"
+    "-Error type: %(levelname)s\n"
+    "-File: %(filename)s -\n"
+    "-Line %(lineno)d"
+    "-\n Message: %(message)s\n",
+)
+
 
 class Mp3Combiner:
-    """ """
+    """
+    This is based on the mp3 cat combiner app written in the Go language.
+    This app is contained within this project.
+    My app calls the compiled program and uses it to process the audio.
+    Therefore, this app can be considered to simply be a wrapper for the Go program.
+    Furthermore, it will only run on windows as the source code has only been compiled for this system.
+    """
 
-    def __init__(self, show_yaml_data):
+    def __init__(self, show_yaml_data) -> None:
         """
+        In order for the mp3 cat to grab the correct files, you must enter the data correctly
+        into the cofiguration files. After that, everything else is done automatically.
+        Be sure to check the log file for any errors.
 
-        :param show_yaml_data:
+        :param
+            show_yaml_data(str):
+                The path to the configuration file.
         """
         self.anki_app_data = show_yaml_data
 
     def __open_yaml_data(self) -> dict:
         """
+        The YAML, the path of which was passed through,
+        is opened and its are contents returned.
 
-        :return:
+        :return
+            yaml_data (dict): the YAML data from the config file.
         """
-        with open(self.anki_app_data, mode="r",encoding="utf-8") as yaml_file:
+        with open(self.anki_app_data, mode="r", encoding="utf-8") as yaml_file:
             yaml_data = yaml.safe_load(yaml_file)
             return yaml_data
 
@@ -46,11 +71,11 @@ class Mp3Combiner:
 
     def __delete_files(self, temp):
         try:
-            files = glob.glob(fr"{temp}\*")
+            files = glob.glob(rf"{temp}\*")
             for f in files:
                 os.remove(f)
-        except:
-            pass
+        except Exception as error:
+            print(error)
 
     def file_type_search(self) -> list:
         """
@@ -105,10 +130,12 @@ class Mp3Combiner:
         audio_file.tag.album = data.get("show_name")
         audio_file.tag.genre = data.get("genre")
 
-        cover_art_filename = self.__open_yaml_data().get("../cover_art")
-
-        with open(cover_art_filename, "rb") as cover_art:
-            audio_file.tag.images.set(0, cover_art.read(), "image/jpg")
+        cover_art_filename = self.__open_yaml_data().get("cover_art")
+        try:
+            with open(cover_art_filename, "rb") as cover_art:
+                audio_file.tag.images.set(0, cover_art.read(), "image/jpg")
+        except TypeError:
+            logging.warning("The album art could not be written to the file.")
 
         audio_file.tag.save()
 
@@ -127,11 +154,11 @@ class Mp3Combiner:
         show_name = self.__open_yaml_data().get("show_name")
         temp_folder = self.__open_yaml_data().get("temp_folder")
         mp3_cat = self.__open_yaml_data().get("mp3_cat")
+        home_dir = self.__open_yaml_data().get("home_dir")
         show_amount = len(show_collection)
         track_num = 0
 
         for episode_name in sorted(show_collection):
-
             track_num += 1
             prog_amount = float(track_num / show_amount)
             if find_hook is False:
@@ -167,7 +194,7 @@ class Mp3Combiner:
                 )
 
             time.sleep(3)
-            os.chdir(r"C:\Users\chris\Github\Python\Mp3Combiner")
+            os.chdir(home_dir)
             shutil.rmtree(temp_folder)
 
             if find_hook:

@@ -1,13 +1,16 @@
 # path names
-anki_media: C:\Users\chris\AppData\Roaming\Anki2\MediaFire\collection.media
-save_path: C:\Users\chris\Github\Python\Mp3Combiner\condensed_audio
-temp_folder: C:\Users\chris\Github\Python\Mp3Combiner\temp
-mp3_cat: C:\Users\chris\Github\Python\Mp3Combiner\mp3cat\mp3cat.exe --dir . --out
+anki_media: C:\Users\christopherchandler\AppData\Roaming\Anki2\User 1\collection.media
+home_dir: C:\Users\christopherchandler\Documents\GitHub\anki_mp3_cat
+save_path: C:\Users\christopherchandler\Documents\GitHub\anki_mp3_cat\condensed_audio
+temp_folder: C:\Users\christopherchandler\Documents\GitHub\anki_mp3_cat\condensed_audio\temp
+mp3_cat: C:\Users\christopherchandler\Documents\GitHub\anki_mp3_cat\mp3cat\mp3cat.exe --dir . --out
+
 
 # mp3 information
-show_name: GoodMorningCallSeason2
-episode_index: 25
-cover_art:  C:\Users\chris\Github\Python\Mp3Combiner\cover_art\cover_art.jpg
+show_name: Wonder_Egg_Priority
+episode_index: 22
+cover_art:  C:\Users\christopherchandler\Documents\GitHub\anki_mp3_cat\cover_art\Wonder_Egg_Priority_key_visual.jpg
 file_format: mp3
-genre: Drama
+genre: Anime
+
 
